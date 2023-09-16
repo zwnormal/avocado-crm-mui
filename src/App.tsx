@@ -5,12 +5,19 @@ import {fakeAuthProvider} from "./AuthProvider.ts";
 import {loginLoader} from "./login/loader.tsx";
 import {protectedLoader} from "./root/loader.tsx";
 import {loginAction} from "./login/action.tsx";
+import UserListTable from "./user/route.tsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Root />,
         loader: protectedLoader,
+        children: [
+            {
+                path: "/user/list",
+                element: <UserListTable />
+            }
+        ]
     },
     {
         path: "/login",
