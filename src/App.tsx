@@ -1,10 +1,10 @@
 import {createBrowserRouter, redirect, RouterProvider} from "react-router-dom";
-import Root from "./routes/Root.tsx";
-import Login from "./routes/Login.tsx";
+import Root from "./root/route.tsx";
+import Login from "./login/route.tsx";
 import {fakeAuthProvider} from "./AuthProvider.ts";
-import {loginLoader} from "./loaders/Login.tsx";
-import {protectedLoader} from "./loaders/Root.tsx";
-import {loginAction} from "./actions/Login.tsx";
+import {loginLoader} from "./login/loader.tsx";
+import {protectedLoader} from "./root/loader.tsx";
+import {loginAction} from "./login/action.tsx";
 
 const router = createBrowserRouter([
     {
