@@ -1,23 +1,18 @@
-export type Result =
-    | { type: 'ok'; session_id: string }
-    | { type: 'error'; error: Error };
+import Cookies from "universal-cookie";
 
-export default function login (email: string, password: string): Result {
-    fetch("http://127.0.0.1:3000/api/user/login", {
+export default async function login (email: string, password: string) {
+    const response = await fetch("http://127.0.0.1:3000/api/user/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({email, password}),
-    }).then(response => {
-        if (response.ok) {
-            return response.json()
-        }
-        throw new Error(JSON.stringify(response.json()));
-    }).then(session => {
-        return { type: 'ok', session_id: session.session_id }
-    }).catch(function (error) {
-        return { type: "error", error }
     });
-    return { type: "error", error: new Error("Unreachable code")}
+    if (response.ok) {
+        const session = await response.json()
+        const cookies = new Cookies(null, { path: '/' });
+        cookies.set("session_id", session.session_id);
+    } else {
+        throw new Error(await response.text())
+    }
 }

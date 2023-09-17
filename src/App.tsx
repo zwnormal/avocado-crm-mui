@@ -1,11 +1,11 @@
-import {createBrowserRouter, redirect, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Root from "./root/route.tsx";
 import Login from "./login/route.tsx";
-import {fakeAuthProvider} from "./AuthProvider.ts";
 import {loginLoader} from "./login/loader.tsx";
 import {protectedLoader} from "./root/loader.tsx";
 import {loginAction} from "./login/action.tsx";
 import UserListTable from "./user/route.tsx";
+import {logoutLoader} from "./logout/loader.tsx";
 
 const router = createBrowserRouter([
     {
@@ -27,10 +27,8 @@ const router = createBrowserRouter([
     },
     {
         path: "/logout",
-        async action() {
-            await fakeAuthProvider.logout();
-            return redirect("/login");
-        },
+        element: <div/>,
+        loader: logoutLoader,
     }
 ]);
 

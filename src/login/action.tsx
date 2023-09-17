@@ -1,5 +1,5 @@
 import {LoaderFunctionArgs, redirect} from "react-router-dom";
-import {fakeAuthProvider} from "../AuthProvider.ts";
+import login from "../user/cmd/login.ts";
 
 export async function loginAction({request}: LoaderFunctionArgs) {
     const formData = await request.formData();
@@ -13,15 +13,12 @@ export async function loginAction({request}: LoaderFunctionArgs) {
         };
     }
 
-    // Sign in and redirect to the proper destination if successful.
     try {
-        await fakeAuthProvider.login(email, password);
-    } catch (error) {
-        // Unused as of now but this is how you would handle invalid
-        // username/password combinations - just like validating the inputs
-        // above
+        await login(email, password);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
         return {
-            error: "Invalid login attempt",
+            error: err.message,
         };
     }
 

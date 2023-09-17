@@ -1,8 +1,8 @@
 import {LoaderFunctionArgs, redirect} from "react-router-dom";
-import {fakeAuthProvider} from "../AuthProvider.ts";
+import isAuth from "../user/cmd/isAuth.ts";
 
 export function protectedLoader({request}: LoaderFunctionArgs) {
-    if (!fakeAuthProvider.isAuthenticated) {
+    if (!isAuth()) {
         const params = new URLSearchParams();
         params.set("from", new URL(request.url).pathname);
         return redirect("/login?" + params.toString());

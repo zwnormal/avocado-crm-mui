@@ -1,8 +1,8 @@
-import {fakeAuthProvider} from "../AuthProvider.ts";
 import {redirect} from "react-router-dom";
+import isAuth from "../user/cmd/isAuth.ts";
 
 export async function loginLoader() {
-    if (fakeAuthProvider.isAuthenticated) {
+    if (isAuth()) {
         return redirect("/");
     }
     return null;
