@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import {Form, useActionData, useLocation} from "react-router-dom";
+import {Form, useActionData, useLocation, useNavigation} from "react-router-dom";
 import {Alert, Input} from "@mui/material";
 
 export default function Login() {
@@ -13,6 +13,7 @@ export default function Login() {
     const params = new URLSearchParams(location.search);
     const from = params.get("from") || "/";
     const actionData = useActionData() as { error: string } | undefined;
+    const navigation = useNavigation();
 
     return (
         <Container component="main" maxWidth="xs">
@@ -59,6 +60,7 @@ export default function Login() {
                         type="submit"
                         fullWidth
                         variant="contained"
+                        disabled={navigation.state == "submitting"}
                         sx={{ mt: 3, mb: 2 }}
                     >
                         Login
