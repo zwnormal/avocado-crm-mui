@@ -20,41 +20,15 @@ import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import {Badge, createTheme, Link, ThemeProvider} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import NotificationsIcon from '@mui/icons-material/Notifications';
-
-const mainListItems = (
-    <React.Fragment>
-        <ListItemButton component={Link} href="/">
-            <ListItemIcon>
-                <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
-        </ListItemButton>
-        <ListItemButton component={Link} href="/user/list">
-            <ListItemIcon>
-                <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Users" />
-        </ListItemButton>
-    </React.Fragment>
-);
-
-const secondaryListItems = (
-    <React.Fragment>
-        <ListItemButton>
-            <ListItemIcon>
-                <AddIcon />
-            </ListItemIcon>
-            <ListItemText primary="Add User" />
-        </ListItemButton>
-    </React.Fragment>
-);
+import {ReactNode, useState} from "react";
+import Button from "@mui/material/Button";
 
 const defaultTheme = createTheme();
 
 export default function Root() {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [contextMenu, setContextMenu] = useState<ReactNode | null>(null);
 
     const handleToggleDrawer = () => {
         setOpen(!open);
@@ -95,14 +69,15 @@ export default function Root() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography
-                        component="h1"
-                        variant="h6"
-                        color="inherit"
-                        noWrap
-                        sx={{ flexGrow: 1 }}
-                    >
-                    </Typography>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                        <Button component={Link} href="/" color="inherit">
+                            Dashboard
+                        </Button>
+                        <Button component={Link} href="/user/list" color="inherit">
+                            User
+                        </Button>
+                    </Box>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}></Box>
                     <Box sx={{ flexGrow: 0 }}>
                         <IconButton color="inherit" sx={{mr: 2}}>
                             <Badge badgeContent={4} color="secondary">
@@ -155,9 +130,22 @@ export default function Root() {
                 </Toolbar>
                 <Divider />
                 <List component="nav">
-                    {mainListItems}
-                    <Divider sx={{ my: 1 }} />
-                    {secondaryListItems}
+                    <Box sx={{ display: { xs: 'list-item', md: 'none' } }}>
+                        <ListItemButton component={Link} href="/">
+                            <ListItemIcon>
+                                <DashboardIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Dashboard" />
+                        </ListItemButton>
+                        <ListItemButton component={Link} href="/user/list">
+                            <ListItemIcon>
+                                <PeopleIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Users" />
+                        </ListItemButton>
+                        <Divider sx={{ my: 1 }} />
+                    </Box>
+                    {contextMenu && contextMenu}
                 </List>
                 </Box>
             </Drawer>
@@ -169,7 +157,7 @@ export default function Root() {
                     overflow: 'auto',
                 }}
             >
-                <Outlet />
+                <Outlet context={{ setContextMenu }} />
             </Box>
         </ThemeProvider>
     );
