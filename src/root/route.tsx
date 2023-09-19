@@ -19,8 +19,9 @@ import PeopleIcon from '@mui/icons-material/People';
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import {createTheme, Link, ThemeProvider} from "@mui/material";
+import {Badge, createTheme, Link, ThemeProvider} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const mainListItems = (
     <React.Fragment>
@@ -103,8 +104,13 @@ export default function Root() {
                     >
                     </Typography>
                     <Box sx={{ flexGrow: 0 }}>
+                        <IconButton color="inherit" sx={{mr: 2}}>
+                            <Badge badgeContent={4} color="secondary">
+                                <NotificationsIcon />
+                            </Badge>
+                        </IconButton>
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar alt="Remy Sharp" />
+                            <Avatar alt="Remy Sharp" sx={{ width: 26, height: 26 }} />
                         </IconButton>
                         <Menu
                             sx={{ mt: '45px' }}
