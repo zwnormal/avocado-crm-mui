@@ -1,6 +1,4 @@
 import {DataGrid, GridColDef, GridValueGetterParams} from '@mui/x-data-grid';
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 
 const columns: GridColDef[] = [
@@ -38,25 +36,18 @@ const rows = [
 
 export default function UserListTable() {
     return (
-        <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
-            <Grid container spacing={3}>
-                {/* Recent Orders */}
-                <Grid item xs={12}>
-                    <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
-                        <DataGrid
-                            rows={rows}
-                            columns={columns}
-                            initialState={{
-                                pagination: {
-                                    paginationModel: {page: 0, pageSize: 5},
-                                },
-                            }}
-                            pageSizeOptions={[5, 10]}
-                            checkboxSelection
-                        />
-                    </Paper>
-                </Grid>
-            </Grid>
-        </Container>
+        <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
+            <DataGrid
+                rows={rows}
+                columns={columns}
+                initialState={{
+                    pagination: {
+                        paginationModel: {page: 0, pageSize: 5},
+                    },
+                }}
+                pageSizeOptions={[5, 10]}
+                checkboxSelection
+            />
+        </Paper>
     );
 }

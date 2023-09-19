@@ -1,10 +1,9 @@
 import * as React from 'react';
 import {Outlet} from "react-router-dom";
-import {styled} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import MuiDrawer from '@mui/material/Drawer';
+import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
-import MuiAppBar, {AppBarProps as MuiAppBarProps} from '@mui/material/AppBar';
+import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
@@ -20,58 +19,8 @@ import PeopleIcon from '@mui/icons-material/People';
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import {Link} from "@mui/material";
+import {createTheme, Link, ThemeProvider} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-
-const drawerWidth: number = 240;
-
-interface AppBarProps extends MuiAppBarProps {
-    open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    ...(open && {
-        marginLeft: drawerWidth,
-        width: `calc(100% - ${drawerWidth}px)`,
-        transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    }),
-}));
-
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        '& .MuiDrawer-paper': {
-            position: 'relative',
-            whiteSpace: 'nowrap',
-            width: drawerWidth,
-            transition: theme.transitions.create('width', {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-            boxSizing: 'border-box',
-            ...(!open && {
-                overflowX: 'hidden',
-                transition: theme.transitions.create('width', {
-                    easing: theme.transitions.easing.sharp,
-                    duration: theme.transitions.duration.leavingScreen,
-                }),
-                width: theme.spacing(7),
-                [theme.breakpoints.up('sm')]: {
-                    width: theme.spacing(9),
-                },
-            }),
-        },
-    }),
-);
 
 const mainListItems = (
     <React.Fragment>
@@ -101,12 +50,18 @@ const secondaryListItems = (
     </React.Fragment>
 );
 
-export default function Root() {
-    const [open, setOpen] = React.useState(true);
+const defaultTheme = createTheme();
 
-    const toggleDrawer = () => {
+export default function Root() {
+    const [open, setOpen] = React.useState(false);
+
+    const handleToggleDrawer = () => {
         setOpen(!open);
     };
+
+    const handleCloseDrawer = () => {
+        setOpen(false);
+    }
 
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -119,9 +74,9 @@ export default function Root() {
     };
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <ThemeProvider theme={defaultTheme}>
             <CssBaseline />
-            <AppBar position="absolute" open={open}>
+            <AppBar position="relative">
                 <Toolbar
                     sx={{
                         pr: '24px', // keep right padding when drawer closed
@@ -131,7 +86,7 @@ export default function Root() {
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
-                        onClick={toggleDrawer}
+                        onClick={handleToggleDrawer}
                         sx={{
                             marginRight: '36px',
                             ...(open && { display: 'none' }),
@@ -174,7 +129,12 @@ export default function Root() {
                     </Box>
                 </Toolbar>
             </AppBar>
-            <Drawer variant="permanent" open={open}>
+            <Drawer anchor="left" open={open} onClose={handleCloseDrawer}>
+                <Box
+                    sx={{ width: 250 }}
+                    role="presentation"
+                    onClick={handleToggleDrawer}
+                >
                 <Toolbar
                     sx={{
                         display: 'flex',
@@ -183,7 +143,7 @@ export default function Root() {
                         px: [1],
                     }}
                 >
-                    <IconButton onClick={toggleDrawer}>
+                    <IconButton onClick={handleCloseDrawer}>
                         <ChevronLeftIcon />
                     </IconButton>
                 </Toolbar>
@@ -193,6 +153,7 @@ export default function Root() {
                     <Divider sx={{ my: 1 }} />
                     {secondaryListItems}
                 </List>
+                </Box>
             </Drawer>
             <Box
                 component="main"
@@ -202,9 +163,8 @@ export default function Root() {
                     overflow: 'auto',
                 }}
             >
-                <Toolbar />
                 <Outlet />
             </Box>
-        </Box>
+        </ThemeProvider>
     );
 }
