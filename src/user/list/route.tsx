@@ -8,6 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import ListItemText from "@mui/material/ListItemText";
 import {useEffect} from "react";
 import {useOutletContext, useLoaderData} from "react-router-dom";
+import User from "../domin/user.ts";
 
 const contextMenu = (
     <React.Fragment>
@@ -29,9 +30,8 @@ const columns: GridColDef[] = [
 ];
 
 export default function UserListTable() {
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    const { setContextMenu } = useOutletContext<any>();
-    const { users } = useLoaderData();
+    const { setContextMenu } = useOutletContext<{ setContextMenu: React.Dispatch<React.SetStateAction<React.ReactNode>> }>();
+    const { users } = useLoaderData() as { users: User[] };
 
     useEffect(() => {
         setContextMenu(contextMenu);
