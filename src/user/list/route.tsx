@@ -1,4 +1,4 @@
-import {DataGrid, GridColDef, GridValueGetterParams} from '@mui/x-data-grid';
+import {DataGrid, GridColDef} from '@mui/x-data-grid';
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import * as React from "react";
