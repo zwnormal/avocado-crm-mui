@@ -1,15 +1,16 @@
 import User from "../domin/user.ts";
 
 export default async function list(): Promise<User[]> {
+    console.log(localStorage.getItem("session_id"));
     const response = await fetch("http://127.0.0.1:3000/api/user/list", {
         method: "GET",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("session_id")}`
         },
-        credentials: 'include',
     });
     if (response.ok) {
-        return JSON.parse(await response.text());
+        return response.json();
     } else {
         throw new Error(await response.text());
     }
