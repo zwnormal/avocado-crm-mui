@@ -1,3 +1,5 @@
+import Cookies from "universal-cookie";
+
 export default async function login (email: string, password: string) {
     const response = await fetch("http://127.0.0.1:3000/api/user/login", {
         method: "POST",
@@ -8,7 +10,8 @@ export default async function login (email: string, password: string) {
     });
     if (response.ok) {
         const session = await response.json();
-        localStorage.setItem("session_id", session.session_id);
+        const cookies = new Cookies(null, { path: '/' });
+        cookies.set("session_id", session.session_id);
     } else {
         throw new Error(await response.text())
     }
