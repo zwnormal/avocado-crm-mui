@@ -1,7 +1,6 @@
 import User from "../domin/user.ts";
 
 export default async function list(): Promise<User[]> {
-    console.log(localStorage.getItem("session_id"));
     const response = await fetch("http://127.0.0.1:3000/api/user/list", {
         method: "GET",
         headers: {
