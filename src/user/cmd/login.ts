@@ -9,7 +9,7 @@ export default async function login (email: string, password: string) {
         body: JSON.stringify({email, password}),
     });
     if (response.ok) {
-        const session = await response.json()
+        const session = await response.json();
         const cookies = new Cookies(null, { path: '/' });
         cookies.set("session_id", session.session_id);
     } else {

@@ -4,8 +4,9 @@ import Login from "./login/route.tsx";
 import {loginLoader} from "./login/loader.tsx";
 import {protectedLoader} from "./root/loader.tsx";
 import {loginAction} from "./login/action.tsx";
-import UserListTable from "./user/route.tsx";
+import UserListTable from "./user/list/route.tsx";
 import {logoutLoader} from "./logout/loader.tsx";
+import {userListLoader} from "./user/list/loader.tsx";
 
 const router = createBrowserRouter([
     {
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
             {
                 path: "/user/list",
                 element: <UserListTable />,
+                loader: userListLoader,
             }
         ]
     },
